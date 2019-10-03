@@ -1,0 +1,20 @@
+/* 0. Init */
+CREATE TABLE `adactafintechassignment`.`tablewithstrings` ( `Id` INT NOT NULL AUTO_INCREMENT , `RandomString` VARCHAR(255) NOT NULL , PRIMARY KEY (`Id`)) ENGINE = InnoDB;
+
+/* 0. Fill table (added seed for repeatable timing)*/
+drop procedure if exists fillTable;
+DELIMITER //
+CREATE PROCEDURE fillTable()
+BEGIN
+    DECLARE i int DEFAULT 1;
+    WHILE i <= 10 DO
+        INSERT INTO `tablewithstrings` (`Id`, `RandomString`) VALUES (NULL, LEFT(MD5(RAND(i)), 10)); 
+        SET i = i + 1;
+    END WHILE;
+END
+//
+
+CALL fillTable();
+
+/* 6. */
+ALTER TABLE `tablewithstrings` ADD `Rang` INT NULL AFTER `RandomString`;
